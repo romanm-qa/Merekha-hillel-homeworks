@@ -10,7 +10,7 @@ if True:
 
 # task 03  == Додайте пропущену змінну у ф-цію print
 for letter in "Hello world!":
-     print(letter)
+    print(letter)
 
 # task 04 == Зробіть так, щоб кількість бананів була
 # завжди в чотири рази більша, ніж яблук
