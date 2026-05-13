@@ -1,4 +1,4 @@
 def calculate_discount(price):
-    if price > 500:
-        return price - 100
+    if price > 1000:
+        return price - 200
     return price
