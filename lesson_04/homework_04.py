@@ -89,6 +89,7 @@ print(found)
 
 # task 10
 """ Виведіть кількість слів останнього речення з adwentures_of_tom_sawer_sentences."""
+# [-1] is empty because the original text ends with a dot
 last_sentence = adventures_of_tom_sawer_sentences[-2]
 words = last_sentence.split()
 count = len(words)
