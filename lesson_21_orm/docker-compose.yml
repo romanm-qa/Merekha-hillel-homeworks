@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: homework_21_postgres
+    environment:
+      POSTGRES_DB: student_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - homework_21_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  homework_21_postgres_data:
