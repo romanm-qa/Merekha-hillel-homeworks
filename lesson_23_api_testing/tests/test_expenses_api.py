@@ -5,7 +5,7 @@ import pytest
 @pytest.mark.positive
 def test_get_all_expenses(qauto_api):
     # Отправляем запрос на получение всех расходов
-    response = qauto_api.get_expenses()
+    response = qauto_api.expenses.get_expenses()
     response_data = response.json()
 
     assert response.status_code == 200
@@ -28,7 +28,7 @@ def test_create_expense(created_expense, created_car):
 @pytest.mark.positive
 def test_get_expense_by_id(qauto_api, created_expense):
     # Получаем созданный расход по его ID
-    response = qauto_api.get_expense(created_expense["id"])
+    response = qauto_api.expenses.get_expense(created_expense["id"])
     response_data = response.json()
 
     # Проверяем статус и данные расхода
@@ -42,7 +42,7 @@ def test_get_expense_by_id(qauto_api, created_expense):
 @pytest.mark.positive
 def test_update_expense(qauto_api, created_expense, created_car):
     # Изменяем данные созданного расхода
-    response = qauto_api.update_expense(
+    response = qauto_api.expenses.update_expense(
         expense_id=created_expense["id"],
         car_id=created_car["id"],
     )
@@ -56,7 +56,7 @@ def test_update_expense(qauto_api, created_expense, created_car):
     assert response_data["data"]["totalCost"] == 150
 
     # Повторно получаем расход и проверяем сохранение изменений
-    get_response = qauto_api.get_expense(created_expense["id"])
+    get_response = qauto_api.expenses.get_expense(created_expense["id"])
     updated_expense = get_response.json()["data"]
 
     assert get_response.status_code == 200
@@ -71,12 +71,12 @@ def test_delete_expense(qauto_api, created_expense):
     expense_id = created_expense["id"]
 
     # Удаляем созданный расход
-    response = qauto_api.delete_expense(expense_id)
+    response = qauto_api.expenses.delete_expense(expense_id)
 
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
 
     # Проверяем, что удалённый расход больше недоступен
-    get_response = qauto_api.get_expense(expense_id)
+    get_response = qauto_api.expenses.get_expense(expense_id)
 
     assert get_response.status_code == 404

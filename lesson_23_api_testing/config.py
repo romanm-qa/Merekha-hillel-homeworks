@@ -1,7 +1,14 @@
-BASE_URL = "https://qauto.forstudy.space/api"
+import os
 
-BASIC_AUTH_LOGIN = "guest"
-BASIC_AUTH_PASSWORD = "welcome2qauto"
+from dotenv import load_dotenv
 
-TEST_USER_EMAIL = "roman.merekha.hillel23@test.com"
-TEST_USER_PASSWORD = "Qwerty12345"
+# Загружаем переменные из файла .env
+load_dotenv()
+
+BASE_URL = os.getenv("BASE_URL")
+
+BASIC_AUTH_LOGIN = os.getenv("BASIC_AUTH_LOGIN")
+BASIC_AUTH_PASSWORD = os.getenv("BASIC_AUTH_PASSWORD")
+
+TEST_USER_EMAIL = os.getenv("TEST_USER_EMAIL")
+TEST_USER_PASSWORD = os.getenv("TEST_USER_PASSWORD")
