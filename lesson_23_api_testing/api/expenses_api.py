@@ -1,6 +1,7 @@
 import logging
-
 from datetime import date
+
+from lesson_23_api_testing.api.models import ExpenseResponse, StatusResponse
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +11,15 @@ class ExpensesAPI:
         # Используем общую авторизованную сессию для запросов к API расходов
         self.session = session
         self.base_url = base_url
+
+    @staticmethod
+    def _validate_response(
+            response,
+            response_model,
+            expected_status_code=200,
+    ):
+        assert response.status_code == expected_status_code
+        return response_model.model_validate(response.json())
 
     def get_expenses(self):
         # Получаем список всех расходов пользователя
@@ -59,6 +69,8 @@ class ExpensesAPI:
             response.status_code,
         )
 
+        self._validate_response(response, ExpenseResponse)
+
         return response
 
     def delete_expense(self, expense_id):
@@ -72,6 +84,8 @@ class ExpensesAPI:
             "Delete expense response status: %s",
             response.status_code,
         )
+
+        self._validate_response(response, StatusResponse)
 
         return response
 

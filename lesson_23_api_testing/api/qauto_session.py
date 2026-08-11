@@ -2,10 +2,10 @@ import logging
 
 import requests
 
+from lesson_23_api_testing.api.models import StatusResponse
+
 from lesson_23_api_testing.config import (
     BASE_URL,
-    BASIC_AUTH_LOGIN,
-    BASIC_AUTH_PASSWORD,
     TEST_USER_EMAIL,
     TEST_USER_PASSWORD,
 )
@@ -16,12 +16,8 @@ logger = logging.getLogger(__name__)
 class QAutoSession:
     def __init__(self):
         self.base_url = BASE_URL
-        # Создаём общую сессию и настраиваем Basic Auth для всех запросов
+        # Создаём общую HTTP-сессию для сохранения cookie
         self.session = requests.Session()
-        self.session.auth = (
-            BASIC_AUTH_LOGIN,
-            BASIC_AUTH_PASSWORD,
-        )
 
     def sign_in(self):
         # Формируем данные для входа тестового пользователя
@@ -44,6 +40,9 @@ class QAutoSession:
             response.status_code,
         )
 
+        assert response.status_code == 200
+        StatusResponse.model_validate(response.json())
+
         return response
 
     def sign_out(self):
@@ -57,6 +56,9 @@ class QAutoSession:
             "Sign-out response status: %s",
             response.status_code,
         )
+
+        assert response.status_code == 200
+        StatusResponse.model_validate(response.json())
 
         return response
 

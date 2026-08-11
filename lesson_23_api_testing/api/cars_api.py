@@ -1,5 +1,7 @@
 import logging
 
+from lesson_23_api_testing.api.models import CarResponse, StatusResponse
+
 logger = logging.getLogger(__name__)
 
 
@@ -8,6 +10,15 @@ class CarsAPI:
         # Используем общую авторизованную сессию для запросов к API машин
         self.session = session
         self.base_url = base_url
+
+    @staticmethod
+    def _validate_response(
+            response,
+            response_model,
+            expected_status_code=200,
+    ):
+        assert response.status_code == expected_status_code
+        return response_model.model_validate(response.json())
 
     def create_car(self, car_brand_id=1, car_model_id=1, mileage=1000):
         # Формируем данные тестовой машины
@@ -29,6 +40,12 @@ class CarsAPI:
             response.status_code,
         )
 
+        self._validate_response(
+            response,
+            CarResponse,
+            expected_status_code=201,
+        )
+
         return response
 
     def delete_car(self, car_id):
@@ -42,5 +59,7 @@ class CarsAPI:
             "Delete car response status: %s",
             response.status_code,
         )
+
+        self._validate_response(response, StatusResponse)
 
         return response

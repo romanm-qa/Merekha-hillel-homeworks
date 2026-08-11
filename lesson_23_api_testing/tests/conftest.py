@@ -9,11 +9,7 @@ def qauto_api():
     api = QAutoAPI()
 
     # Авторизуем тестового пользователя
-    response = api.session.sign_in()
-
-    # Проверяем успешность авторизации
-    assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    api.session.sign_in()
 
     # Передаём авторизованный API-клиент тестам
     yield api
@@ -28,21 +24,15 @@ def created_car(qauto_api):
     # Создаём машину перед запуском тестов
     response = qauto_api.cars.create_car()
 
-    assert response.status_code == 201
-    assert response.json()["status"] == "ok"
-
     created_car_data = response.json()["data"]
 
     # Передаём данные созданной машины тестам
     yield created_car_data
 
     # Удаляем тестовую машину после завершения теста
-    delete_response = qauto_api.cars.delete_car(
+    qauto_api.cars.delete_car(
         created_car_data["id"],
     )
-
-    assert delete_response.status_code == 200
-    assert delete_response.json()["status"] == "ok"
 
 
 @pytest.fixture
@@ -51,9 +41,6 @@ def created_expense(qauto_api, created_car):
     response = qauto_api.expenses.create_expense(
         created_car["id"],
     )
-
-    assert response.status_code == 200
-    assert response.json()["status"] == "ok"
 
     created_expense_data = response.json()["data"]
 
@@ -67,9 +54,6 @@ def created_expense(qauto_api, created_car):
 
     # Удаляем расход, только если тест сам его не удалил
     if get_response.status_code == 200:
-        delete_response = qauto_api.expenses.delete_expense(
+        qauto_api.expenses.delete_expense(
             created_expense_data["id"],
         )
-
-        assert delete_response.status_code == 200
-        assert delete_response.json()["status"] == "ok"
