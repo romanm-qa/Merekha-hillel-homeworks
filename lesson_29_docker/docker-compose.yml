@@ -1,0 +1,27 @@
+# Альтернативный способ запуска PostgreSQL через Docker Compose.
+# В рамках домашнего задания основной контейнер PostgreSQL
+# запускается отдельно с помощью команды docker run.
+# Не запускайте оба варианта одновременно, поскольку они используют
+# одинаковые имя контейнера и порт.
+
+services:
+  postgres:
+    image: postgres:16              # готовый официальный образ Postgres, своего Dockerfile для БД не нужно
+    container_name: hw29_postgres
+    environment:
+      # эти переменные образ postgres читает при первом запуске
+      # и автоматически создаёт базу, пользователя и пароль для неё
+      POSTGRES_DB: student_management
+      POSTGRES_USER: roman
+      POSTGRES_PASSWORD: merekharoman
+    ports:
+      # проброс порта: подключение с компьютера (хоста) идёт на 5433
+      # внутри контейнера Postgres слушает на своём "родном" порту 5432
+      - "5433:5432"
+    volumes:
+      # сохраняем данные БД отдельно от контейнера,
+      # чтобы они не терялись при удалении/пересоздании контейнера
+      - homework_29_docker_data:/var/lib/postgresql/data
+
+volumes:
+  homework_29_docker_data:
