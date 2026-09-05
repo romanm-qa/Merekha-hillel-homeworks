@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      # PostgreSQL создаст базу и пользователя при первом запуске
+      POSTGRES_DB: student_management
+      POSTGRES_USER: roman
+      POSTGRES_PASSWORD: merekharoman
+    ports:
+      # Доступ к PostgreSQL с компьютера
+      - "5433:5432"
+    volumes:
+      # Сохраняем данные PostgreSQL после пересоздания контейнера
+      - homework_31_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # Проверяем, что PostgreSQL уже готов принимать подключения
+      test: [ "CMD-SHELL", "pg_isready -U roman -d student_management" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  tests:
+    build:
+      # Docker должен видеть корень репозитория,
+      # requirements.txt и lesson_31_jenkins
+      context: ..
+      dockerfile: lesson_31_jenkins/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      pytest
+      --junitxml=test-reports/results.xml
+      --alluredir=allure-results
+      --clean-alluredir
+    volumes:
+      # Сохраняем JUnit XML и результаты Allure на компьютере
+      - ./test-reports:/app/test-reports
+      - ./allure-results:/app/allure-results
+
+volumes:
+  homework_31_postgres_data:
