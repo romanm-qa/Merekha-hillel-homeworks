@@ -21,6 +21,9 @@ pipeline {
         // чтобы они не конфликтовали за порт PostgreSQL
         disableConcurrentBuilds()
 
+        // Храним историю только последних 10 сборок
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+
         // Останавливаем pipeline, если он выполняется слишком долго
         timeout(time: 15, unit: 'MINUTES')
     }
