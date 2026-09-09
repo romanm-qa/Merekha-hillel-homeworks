@@ -2,6 +2,11 @@ pipeline {
     // Pipeline выполняется на доступном Jenkins-узле
     agent any
 
+    environment {
+        // Добавляем Docker CLI и Homebrew-команды в PATH Jenkins
+        PATH = "/usr/local/bin:/opt/homebrew/bin:${env.PATH}"
+    }
+
     options {
         // Checkout выполняется вручную в отдельной стадии
         skipDefaultCheckout(true)
