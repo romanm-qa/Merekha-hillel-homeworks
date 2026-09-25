@@ -56,3 +56,15 @@ print("\nПропуск ненужного значения:")
 print(f"Исходный список: {numbers!r}")
 print(f"first -> {first!r}")
 print(f"third -> {third!r}")
+
+# На каждом шаге цикла вложенный список распаковывается в две переменные.
+users = [
+    ["Roman", 29],
+    ["Anna", 25],
+]
+
+print("\nРаспаковка в цикле:")
+print(f"Исходный список: {users!r}")
+
+for name, age in users:
+    print(f"name -> {name!r}, age -> {age!r}")

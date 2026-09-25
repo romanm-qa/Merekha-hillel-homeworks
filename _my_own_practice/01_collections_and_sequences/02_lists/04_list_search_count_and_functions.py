@@ -32,3 +32,13 @@ print(f"Исходный список: {fruits!r}")
 print(f"'banana' in fruits -> {'banana' in fruits!r}")
 print(f"'kiwi' in fruits -> {'kiwi' in fruits!r}")
 print(f"'kiwi' not in fruits -> {'kiwi' not in fruits!r}")
+
+# Встроенные функции вызываются отдельно, а не через точку после списка.
+numbers = [10, 20, 30, 20, 40, 20]
+
+print("\nВстроенные функции:")
+print(f"Исходный список: {numbers!r}")
+print(f"len(numbers) -> {len(numbers)!r}")
+print(f"min(numbers) -> {min(numbers)!r}")
+print(f"max(numbers) -> {max(numbers)!r}")
+print(f"sum(numbers) -> {sum(numbers)!r}")
