@@ -6,3 +6,5 @@ __pycache__/
 allure-results/
 allure-report/
 test-reports/
+# Личный файл с практикой
+/practice.py
