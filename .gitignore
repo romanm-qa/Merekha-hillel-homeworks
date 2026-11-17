@@ -8,3 +8,5 @@ allure-report/
 test-reports/
 # Личный файл с практикой
 /practice.py
+# Playwright артефакты (скриншоты и трассировки при провале тестов)
+lesson_26_27_playwright/reports/
